@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Food Safety Inspector — Independent DOL</title>
+<style>
+*{box-sizing:border-box}body{font-family:Arial,sans-serif;background:#f4f6fb;color:#25304a;margin:0;padding:16px}.wrap{max-width:880px;margin:auto}header{background:#193c66;color:white;border-radius:18px;padding:22px}h1{margin:0 0 8px;font-size:27px}h2{font-size:20px}section{background:white;border-radius:16px;padding:20px;margin-top:15px;box-shadow:0 2px 9px #dce3ef}p{line-height:1.45}.hint{color:#516078}.food-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:10px}.food{border:2px solid #e2e8f0;border-radius:12px;padding:12px;background:#fafbff}.food label{display:block;font-weight:bold;margin-bottom:8px}.food select{width:100%;padding:9px;border-radius:8px;border:1px solid #9aaac2;background:white;font-size:15px}.choices label{display:block;margin:10px 0;padding:10px;border-radius:10px;background:#f3f6fa}.choices input{margin-right:9px}textarea{width:100%;min-height:90px;padding:12px;border:1px solid #9aaac2;border-radius:10px;font:inherit}button{background:#145da0;color:white;padding:13px 20px;border:0;border-radius:12px;font-weight:bold;font-size:16px;cursor:pointer}button:hover{background:#0c487e}#result{display:none;border:2px solid #8fb3d7}#result.visible{display:block}.score{font-size:24px;font-weight:bold}.good{color:#116b3c}.needs{color:#9b471a}small{color:#546079}@media print{button{display:none}body{background:white}section{box-shadow:none;border:1px solid #ddd}}
+</style></head><body><main class="wrap">
+<header><h1>🧑‍🍳 Food Safety Inspector</h1><div>Independent Exit Ticket • TCS vs. Non-TCS Foods</div><p>Work by yourself. Your goal is to correctly classify at least <strong>7 out of 10</strong> foods and explain <strong>one reason</strong> temperature control helps prevent foodborne illness.</p></header>
+<section><h2>Part A — Classify 10 foods</h2><p>For each food, choose <strong>TCS</strong> (needs time and temperature control for safety) or <strong>Non-TCS</strong>. You may change your answers before submitting.</p><div id="foods" class="food-grid"></div></section>
+<section><h2>Part B — Explain one reason</h2><p>Why is proper temperature control important for preventing foodborne illness?</p><textarea id="reason" placeholder="Temperature control is important because..." aria-label="One reason temperature control is important"></textarea></section>
+<section><h2>Part C — School cafeteria inspection</h2><p>The cafeteria has prepared scrambled eggs, cut melon, and plain bagels. Which foods require temperature control for safety?</p>
+<div class="choices"><label><input type="radio" name="risk" value="a">Only the plain bagels</label><label><input type="radio" name="risk" value="b">Scrambled eggs and cut melon</label><label><input type="radio" name="risk" value="c">All three foods</label></div>
+<p>Choose <strong>two</strong> safe actions the cafeteria staff should take.</p>
+<div class="choices"><label><input type="checkbox" name="action" value="a">Keep TCS foods at safe hot or cold holding temperatures</label><label><input type="checkbox" name="action" value="b">Check and monitor food temperatures</label><label><input type="checkbox" name="action" value="c">Decide food is safe just because it smells normal</label><label><input type="checkbox" name="action" value="d">Leave prepared TCS foods on a counter without temperature control</label></div></section>
+<section><label for="student"><strong>Your name (first name and last initial):</strong></label><br><input id="student" autocomplete="off" style="margin:10px 0;padding:10px;max-width:300px;width:100%;border:1px solid #9aaac2;border-radius:8px" placeholder="e.g., Alex R."><p><button id="submit">Submit My DOL</button></p><small>After submitting, you can print or save your results as a PDF to turn in. This website does not automatically send scores to Schoology.</small></section>
+<section id="result" aria-live="polite"><h2>Your Results</h2><div id="score" class="score"></div><p id="feedback"></p><p id="scenario"></p><p><button onclick="window.print()">Print / Save Results</button></p></section>
+</main><script>
+const foods=[["Scrambled eggs","t"],["Whole apple","n"],["Yogurt","t"],["Dry cereal","n"],["Cooked bacon","t"],["Plain bagel","n"],["Cut melon","t"],["Cream cheese","t"],["Cooked rice","t"],["Potato chips","n"]];
+const foodArea=document.getElementById("foods");
+foods.forEach(([name],i)=>{const el=document.createElement("div");el.className="food";el.innerHTML='<label for="f'+i+'">'+(i+1)+'. '+name+'</label><select id="f'+i+'"><option value="">Choose...</option><option value="t">TCS</option><option value="n">Non-TCS</option></select>';foodArea.appendChild(el)});
+document.getElementById("submit").addEventListener("click",()=>{
+const answers=foods.map((f,i)=>document.getElementById("f"+i).value);
+if(answers.some(x=>!x)){alert("Please classify all 10 foods before submitting.");return}
+const reason=document.getElementById("reason").value.trim();if(!reason){alert("Please explain one reason in Part B.");return}
+const risk=document.querySelector('input[name="risk"]:checked');if(!risk){alert("Please answer the cafeteria question.");return}
+const acts=[...document.querySelectorAll('input[name="action"]:checked')].map(x=>x.value);if(acts.length!==2){alert("Please select exactly TWO safe actions.");return}
+const score=answers.filter((v,i)=>v===foods[i][1]).length;
+document.getElementById("score").textContent="Classification score: "+score+"/10 — "+(score>=7?"Mastery target met":"Keep practicing");
+document.getElementById("score").className="score "+(score>=7?"good":"needs");
+document.getElementById("feedback").textContent="Your explanation: "+reason;
+document.getElementById("scenario").textContent="Cafeteria scenario: "+(risk.value==="b"&&acts.includes("a")&&acts.includes("b")?"Correct identification and two safe actions.":"Review which prepared foods need safe holding and which actions help protect guests.");
+document.getElementById("result").classList.add("visible");document.getElementById("result").scrollIntoView({behavior:"smooth"});
+});
+</script></body></html>
